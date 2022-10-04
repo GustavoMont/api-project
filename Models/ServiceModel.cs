@@ -1,16 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-namespace order_manager.Models;
+namespace api_project.Models;
 
 public class Service
 {
-    [Required]
-    public int Id { get; set; }
-    [Required]
-    public DateTime CreatedAt { get; set; }
-    [Required]
-    public DateTime UpdatedAt { get; set; }
     public Service()
     {
         CreatedAt = DateTime.Now;
@@ -20,6 +13,12 @@ public class Service
     {
         UpdatedAt = DateTime.Now;
     }
+    [Required]
+    public int Id { get; set; }
+    [Required]
+    public DateTime CreatedAt { get; set; }
+    [Required]
+    public DateTime UpdatedAt { get; set; }
     [Required]
     [Column(TypeName = "varchar(40)")]
     public string Name { get; set; }
@@ -40,4 +39,6 @@ public class Service
     public Firm Firm { get; set; }
     public int FirmId { get; set; }
     public List<Professional> Professionals { get; set; }
+    public ServiceType ServiceType { get; set; }
+
 }

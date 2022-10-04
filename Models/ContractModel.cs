@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace order_manager.Models;
+namespace api_project.Models;
 
 public class Contract
 {
@@ -11,7 +11,7 @@ public class Contract
     [Column(TypeName = "text")]
     public string Description { get; set; }
     public Client Client { get; set; }
+    public int ClientId { get; set; }
     public Service Service { get; set; }
-    public int CientId { get; set; }
     public int ServiceId { get; set; }
 }

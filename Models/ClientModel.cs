@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace order_manager.Models;
+namespace api_project.Models;
 
 public class Client
 {
@@ -31,8 +31,6 @@ public class Client
     [Required]
     [Column(TypeName = "varchar(255)")]
     public string Password { get; set; }
-    public List<Contact> Contact { get; set; }
-    public int ContactId { get; set; }
+    public List<ClientContact> Contacts { get; set; }
     public List<Contract> Contract { get; set; }
-    public int ContractId { get; set; }
 }

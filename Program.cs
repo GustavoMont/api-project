@@ -1,6 +1,17 @@
+using api_project.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<Context>(
+  options =>
+  options.UseMySql(
+      builder.Configuration.GetConnectionString("ConexaoBanco"),
+      ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("ConexaoBanco"))
+  )
+);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

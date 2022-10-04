@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "order_manager": {
+    "api_project": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7242;http://localhost:5272",
