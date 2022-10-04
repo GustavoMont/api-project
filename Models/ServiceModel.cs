@@ -37,4 +37,7 @@ public class Service
     public DateTime CompletionDeadline { get; set; }
     public List<Contract> Contract { get; set; }
     public int ContractId { get; set; }
+    public Firm Firm { get; set; }
+    public int FirmId { get; set; }
+    public List<Professional> Professionals { get; set; }
 }
