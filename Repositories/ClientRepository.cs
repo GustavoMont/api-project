@@ -13,7 +13,7 @@ public class ClientRepository
         _contextDb = context;
     }
 
-    public void CreateUse(Client newClient)
+    public void CreateClient(Client newClient)
     {
         _contextDb.Clients.Add(newClient);
         _contextDb.SaveChanges();
