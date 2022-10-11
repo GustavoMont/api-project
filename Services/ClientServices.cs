@@ -3,7 +3,6 @@ using api_project.Repositories;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using order_manager.Dto.Client;
-using System.Security.Cryptography;
 
 namespace api_project.Services;
 
@@ -53,8 +52,10 @@ public class ClientServices
         {
             return null;
         }
+        client.Update();
         var clientUpdate = updates.Adapt(client);
         GetClientRes clientRes = new();
+        _repository.UpdateClient();
         return clientUpdate.Adapt(clientRes);
     }
 
