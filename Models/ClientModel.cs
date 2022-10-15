@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace api_project.Models;
 
+[Index(nameof(Email), IsUnique = true)]
 public class Client
 {
     [Required]
@@ -33,7 +35,13 @@ public class Client
 
     [Required]
     [Column(TypeName = "varchar(255)")]
-    public string Password { get; set; }
+    private string _password;
+    public string Password
+    {
+        get { return _password; }
+        set { _password = BCrypt.Net.BCrypt.HashPassword(value); }
+    }
+
     public List<ClientContact> Contacts { get; set; }
     public List<Contract> Contract { get; set; }
 }
