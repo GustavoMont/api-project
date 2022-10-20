@@ -7,9 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace order_manager.Services;
 
-public static class TokenService
+public class TokenService
 {
-    public static string GenerateToken(Client client)
+    public string GenerateToken(Client client)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(Settings.Secret);
@@ -20,7 +20,7 @@ public static class TokenService
                 {
                     new Claim(ClaimTypes.Name, client.Name),
                     new Claim(ClaimTypes.Email, client.Email),
-                    new Claim(ClaimTypes.NameIdentifier, client.Id.ToString())
+                    new Claim("id", client.Id.ToString())
                 }
             ),
             Expires = DateTime.Now.AddHours(8),

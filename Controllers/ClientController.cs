@@ -1,3 +1,4 @@
+using api_project.Dto.Login;
 using api_project.Services;
 using Microsoft.AspNetCore.Mvc;
 using order_manager.Dto.Client;
@@ -16,9 +17,16 @@ public class ClientController : ControllerBase
     }
 
     [HttpPost]
-    public GetClientRes CreateClient([FromBody] CreateClientReq newClientReq)
+    public ClientLogin CreateClient([FromBody] CreateClientReq newClientReq)
     {
         return _services.CreateClient(newClientReq);
+    }
+
+    [HttpPost]
+    [Route("login")]
+    public ClientLogin Login([FromBody] LoginReq login)
+    {
+        return _services.Login(login);
     }
 
     [HttpGet]

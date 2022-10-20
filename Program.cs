@@ -6,12 +6,14 @@ using api_project.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using order_manager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var key = Encoding.ASCII.GetBytes(Settings.Secret);
 
 // Add services to the container.
+builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<ClientServices>();
 builder.Services
