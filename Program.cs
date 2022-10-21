@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 var key = Encoding.ASCII.GetBytes(Settings.Secret);
 
 // Add services to the container.
+builder.Services.AddCors();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<ClientServices>();
@@ -59,6 +60,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(cors =>
+{
+    cors.AllowAnyHeader();
+    cors.AllowAnyHeader();
+    cors.AllowAnyOrigin();
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

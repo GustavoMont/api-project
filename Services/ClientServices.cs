@@ -35,7 +35,7 @@ public class ClientServices
         }
         var response = new ClientLogin();
         var token = _tokenService.GenerateToken(client);
-        response.Token = token;
+        response.Access = token;
         client.Password = "";
         return response;
     }
@@ -49,7 +49,7 @@ public class ClientServices
         client.Password = "";
         _repository.CreateClient(client);
         var token = _tokenService.GenerateToken(client);
-        var response = new ClientLogin { Token = token };
+        var response = new ClientLogin { Access = token };
         return response;
     }
 
