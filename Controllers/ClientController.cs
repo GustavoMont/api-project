@@ -16,8 +16,32 @@ public class ClientController : ControllerBase
     }
 
     [HttpPost]
-    public CreateClientReq CreateClient([FromBody] CreateClientReq newClientReq)
+    public GetClientRes CreateClient([FromBody] CreateClientReq newClientReq)
     {
         return _services.CreateClient(newClientReq);
+    }
+
+    [HttpGet]
+    public List<GetClientRes> GetAllClients()
+    {
+        return _services.GetAllClients();
+    }
+
+    [HttpGet("{id:int}")]
+    public GetClientRes GetOneClient([FromRoute] int id)
+    {
+        return _services.GetOneClient(id);
+    }
+
+    [HttpPut("{id:int}")]
+    public GetClientRes UpdateClient([FromRoute] int id, [FromBody] CreateClientReq client)
+    {
+        return _services.UpdateClient(id, client);
+    }
+
+    [HttpDelete("{id:int}")]
+    public void DeleteClient([FromRoute] int id)
+    {
+        _services.DeleteClient(id);
     }
 }
