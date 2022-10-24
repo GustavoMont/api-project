@@ -3,8 +3,8 @@ using api_project.Models;
 using api_project.Repositories;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using order_manager.Dto.Client;
-using order_manager.Services;
+using api_project.Dto.Client;
+using api_project.Services;
 
 namespace api_project.Services;
 

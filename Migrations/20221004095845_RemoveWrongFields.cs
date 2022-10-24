@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace order_manager.Migrations
+namespace api_project.Migrations
 {
     public partial class RemoveWrongFields : Migration
     {
@@ -10,19 +10,14 @@ namespace order_manager.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Contracts_Clients_ClientId",
-                table: "Contracts");
+                table: "Contracts"
+            );
 
-            migrationBuilder.DropColumn(
-                name: "CientId",
-                table: "Contracts");
+            migrationBuilder.DropColumn(name: "CientId", table: "Contracts");
 
-            migrationBuilder.DropColumn(
-                name: "ContactId",
-                table: "Clients");
+            migrationBuilder.DropColumn(name: "ContactId", table: "Clients");
 
-            migrationBuilder.DropColumn(
-                name: "ContractId",
-                table: "Clients");
+            migrationBuilder.DropColumn(name: "ContractId", table: "Clients");
 
             migrationBuilder.AlterColumn<int>(
                 name: "ClientId",
@@ -32,7 +27,8 @@ namespace order_manager.Migrations
                 defaultValue: 0,
                 oldClrType: typeof(int),
                 oldType: "int",
-                oldNullable: true);
+                oldNullable: true
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Contracts_Clients_ClientId",
@@ -40,14 +36,16 @@ namespace order_manager.Migrations
                 column: "ClientId",
                 principalTable: "Clients",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Cascade
+            );
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Contracts_Clients_ClientId",
-                table: "Contracts");
+                table: "Contracts"
+            );
 
             migrationBuilder.AlterColumn<int>(
                 name: "ClientId",
@@ -55,35 +53,40 @@ namespace order_manager.Migrations
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
-                oldType: "int");
+                oldType: "int"
+            );
 
             migrationBuilder.AddColumn<int>(
                 name: "CientId",
                 table: "Contracts",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0
+            );
 
             migrationBuilder.AddColumn<int>(
                 name: "ContactId",
                 table: "Clients",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0
+            );
 
             migrationBuilder.AddColumn<int>(
                 name: "ContractId",
                 table: "Clients",
                 type: "int",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 0
+            );
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Contracts_Clients_ClientId",
                 table: "Contracts",
                 column: "ClientId",
                 principalTable: "Clients",
-                principalColumn: "Id");
+                principalColumn: "Id"
+            );
         }
     }
 }

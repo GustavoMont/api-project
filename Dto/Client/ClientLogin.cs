@@ -1,4 +1,4 @@
-namespace order_manager.Dto.Client;
+namespace api_project.Dto.Client;
 
 public class ClientLogin
 {

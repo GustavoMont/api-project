@@ -1,4 +1,4 @@
-namespace api_project.Settings;
+namespace order_manager.Settings;
 
 public static class Settings
 {

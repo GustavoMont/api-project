@@ -8,7 +8,7 @@ using api_project.Data;
 
 #nullable disable
 
-namespace order_manager.Migrations
+namespace api_project.Migrations
 {
     [DbContext(typeof(Context))]
     [Migration("20221011103152_MakeEmailUniqueField")]

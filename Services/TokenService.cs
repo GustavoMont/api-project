@@ -2,10 +2,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using api_project.Models;
-using api_project.Settings;
 using Microsoft.IdentityModel.Tokens;
+using order_manager.Settings;
 
-namespace order_manager.Services;
+namespace api_project.Services;
 
 public class TokenService
 {

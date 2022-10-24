@@ -7,7 +7,7 @@ using api_project.Data;
 
 #nullable disable
 
-namespace order_manager.Migrations
+namespace api_project.Migrations
 {
     [DbContext(typeof(Context))]
     partial class ContextModelSnapshot : ModelSnapshot
