@@ -7,7 +7,7 @@ using api_project.Data;
 
 #nullable disable
 
-namespace api_project.Migrations
+namespace order_manager.Migrations
 {
     [DbContext(typeof(Context))]
     partial class ContextModelSnapshot : ModelSnapshot
@@ -16,7 +16,7 @@ namespace api_project.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("api_project.Models.Client", b =>
@@ -37,8 +37,7 @@ namespace api_project.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
