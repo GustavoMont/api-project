@@ -11,14 +11,14 @@ using api_project.Data;
 namespace api_project.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20221005194952_RemoveTypeFromClient")]
-    partial class RemoveTypeFromClient
+    [Migration("20221023172830_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("api_project.Models.Client", b =>

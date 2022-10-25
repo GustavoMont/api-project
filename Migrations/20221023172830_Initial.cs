@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace api_project.Migrations
 {
-    public partial class UpdatigModels : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,33 +54,25 @@ namespace api_project.Migrations
                 )
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder
-                .CreateTable(
-                    name: "Firms",
-                    columns: table =>
-                        new
-                        {
-                            Id = table
-                                .Column<int>(type: "int", nullable: false)
-                                .Annotation(
-                                    "MySql:ValueGenerationStrategy",
-                                    MySqlValueGenerationStrategy.IdentityColumn
-                                ),
-                            Cnpj = table
-                                .Column<string>(type: "varchar(18)", nullable: false)
-                                .Annotation("MySql:CharSet", "utf8mb4"),
-                            Name = table
-                                .Column<string>(type: "varchar(100)", nullable: false)
-                                .Annotation("MySql:CharSet", "utf8mb4"),
-                            Email = table
-                                .Column<string>(type: "varchar(100)", nullable: false)
-                                .Annotation("MySql:CharSet", "utf8mb4")
-                        },
-                    constraints: table =>
-                    {
-                        table.PrimaryKey("PK_Firms", x => x.Id);
-                    }
-                )
+            migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Name = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "varchar(100)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Password = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder
@@ -309,6 +301,7 @@ namespace api_project.Migrations
                 )
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+<<<<<<< HEAD:Migrations/20221004094935_UpdatigModels.cs
             migrationBuilder
                 .CreateTable(
                     name: "ProfessionalService",
@@ -340,6 +333,60 @@ namespace api_project.Migrations
                         );
                     }
                 )
+=======
+            migrationBuilder.CreateTable(
+                name: "Contracts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(type: "text", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contracts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Contracts_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Contracts_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ProfessionalService",
+                columns: table => new
+                {
+                    ProfessionalsId = table.Column<int>(type: "int", nullable: false),
+                    ServicesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfessionalService", x => new { x.ProfessionalsId, x.ServicesId });
+                    table.ForeignKey(
+                        name: "FK_ProfessionalService_Professionals_ProfessionalsId",
+                        column: x => x.ProfessionalsId,
+                        principalTable: "Professionals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProfessionalService_Services_ServicesId",
+                        column: x => x.ServicesId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+>>>>>>> 1dfa1ed89189d1db2d7f6568266a23ad6a0fa3e6:Migrations/20221023172830_Initial.cs
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
