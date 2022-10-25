@@ -1,13 +1,19 @@
+using Microsoft.EntityFrameworkCore;
 using api_project.Data;
+
 using api_project.Repositories;
 using api_project.Services;
-using Microsoft.EntityFrameworkCore;
+using order_manager.Services;
+using order_manager.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<ClientServices>();
+builder.Services.AddScoped<FirmServices>();
+builder.Services.AddScoped<FirmRepository>();
+
 
 builder.Services.AddDbContext<Context>(
     options =>
