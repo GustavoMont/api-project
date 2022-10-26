@@ -1,6 +1,7 @@
 using api_project.Data;
 using api_project.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api_project.Repositories;
 
@@ -22,7 +23,7 @@ public class ClientRepository
 
     public List<Client> GetAllClients()
     {
-        var clients = _contextDb.Clients.ToList();
+        var clients = _contextDb.Clients.AsNoTracking().ToList();
         return clients;
     }
 
@@ -32,7 +33,7 @@ public class ClientRepository
         return client;
     }
 
-    public Client GetCLientByEMail(string email)
+    public Client GetClientByEMail(string email)
     {
         var client = _contextDb.Clients.FirstOrDefault(client => client.Email == email);
         return client;

@@ -3,6 +3,7 @@ using api_project.Dto.Login;
 using api_project.Services;
 using Microsoft.AspNetCore.Mvc;
 using api_project.Dto.Client;
+using api_project.errors;
 
 namespace api_project.Controllers;
 
@@ -18,9 +19,16 @@ public class ClientController : ControllerBase
     }
 
     [HttpPost]
-    public ClientLogin CreateClient([FromBody] CreateClientReq newClientReq)
+    public ActionResult<ClientLogin> CreateClient([FromBody] CreateClientReq newClientReq)
     {
-        return _services.CreateClient(newClientReq);
+        try
+        {
+            return Ok(_services.CreateClient(newClientReq));
+        }
+        catch (BadRequestException e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
     }
 
     [HttpPost]

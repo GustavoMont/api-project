@@ -5,6 +5,7 @@ using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using api_project.Dto.Client;
 using api_project.Services;
+using api_project.errors;
 
 namespace api_project.Services;
 
@@ -24,7 +25,7 @@ public class ClientServices
 
     public ClientLogin Login(LoginReq login)
     {
-        var client = _repository.GetCLientByEMail(login.Email);
+        var client = _repository.GetClientByEMail(login.Email);
         if (client == null)
         {
             return null;
@@ -45,6 +46,10 @@ public class ClientServices
         var client = new Client();
         client.Name = clientReq.Name;
         client.Email = clientReq.Email;
+        if (clientReq.Password != clientReq.ConfirmPassword)
+        {
+            throw new BadRequestException("As senhas estão diferentes");
+        }
         client.Password = BCrypt.Net.BCrypt.HashPassword(clientReq.Password);
         client.Password = "";
         _repository.CreateClient(client);
