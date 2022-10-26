@@ -1,30 +1,56 @@
+using api_project.Dto.Login;
 using api_project.Models;
 using api_project.Repositories;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using order_manager.Dto.Client;
+using api_project.Dto.Client;
+using api_project.Services;
 
 namespace api_project.Services;
 
 public class ClientServices
 {
     private ClientRepository _repository;
+    private TokenService _tokenService;
 
-    public ClientServices([FromServices] ClientRepository repository)
+    public ClientServices(
+        [FromServices] ClientRepository repository,
+        [FromServices] TokenService tokenService
+    )
     {
         _repository = repository;
+        _tokenService = tokenService;
     }
 
-    public GetClientRes CreateClient(CreateClientReq clientReq)
+    public ClientLogin Login(LoginReq login)
+    {
+        var client = _repository.GetCLientByEMail(login.Email);
+        if (client == null)
+        {
+            return null;
+        }
+        if (BCrypt.Net.BCrypt.Verify(login.Password, client.Password))
+        {
+            return null;
+        }
+        var response = new ClientLogin();
+        var token = _tokenService.GenerateToken(client);
+        response.Access = token;
+        client.Password = "";
+        return response;
+    }
+
+    public ClientLogin CreateClient(CreateClientReq clientReq)
     {
         var client = new Client();
-        GetClientRes clientResponse = new();
         client.Name = clientReq.Name;
         client.Email = clientReq.Email;
         client.Password = BCrypt.Net.BCrypt.HashPassword(clientReq.Password);
+        client.Password = "";
         _repository.CreateClient(client);
-        client.Adapt(clientResponse);
-        return clientResponse;
+        var token = _tokenService.GenerateToken(client);
+        var response = new ClientLogin { Access = token };
+        return response;
     }
 
     public List<GetClientRes> GetAllClients()

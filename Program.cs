@@ -1,19 +1,39 @@
-using Microsoft.EntityFrameworkCore;
+using System.Text;
 using api_project.Data;
-
 using api_project.Repositories;
 using api_project.Services;
-using order_manager.Services;
-using order_manager.Repositories;
+using order_manager.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var key = Encoding.ASCII.GetBytes(Settings.Secret);
+
 // Add services to the container.
+builder.Services.AddCors();
+builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<ClientServices>();
-builder.Services.AddScoped<FirmServices>();
-builder.Services.AddScoped<FirmRepository>();
-
+builder.Services
+    .AddAuthentication(auth =>
+    {
+        auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(auth =>
+    {
+        auth.RequireHttpsMetadata = false;
+        auth.SaveToken = true;
+        auth.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 
 builder.Services.AddDbContext<Context>(
     options =>
@@ -40,6 +60,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(cors =>
+{
+    cors.AllowAnyHeader();
+    cors.AllowAnyHeader();
+    cors.AllowAnyOrigin();
+});
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

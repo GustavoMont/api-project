@@ -32,6 +32,12 @@ public class ClientRepository
         return client;
     }
 
+    public Client GetCLientByEMail(string email)
+    {
+        var client = _contextDb.Clients.FirstOrDefault(client => client.Email == email);
+        return client;
+    }
+
     public void UpdateClient()
     {
         _contextDb.SaveChanges();

@@ -1,8 +1,10 @@
+using System.Net;
+using api_project.Dto.Login;
 using api_project.Services;
 using Microsoft.AspNetCore.Mvc;
-using order_manager.Dto.Client;
+using api_project.Dto.Client;
 
-namespace order_manager.Controllers;
+namespace api_project.Controllers;
 
 [ApiController]
 [Route("clients")]
@@ -16,9 +18,16 @@ public class ClientController : ControllerBase
     }
 
     [HttpPost]
-    public GetClientRes CreateClient([FromBody] CreateClientReq newClientReq)
+    public ClientLogin CreateClient([FromBody] CreateClientReq newClientReq)
     {
         return _services.CreateClient(newClientReq);
+    }
+
+    [HttpPost]
+    [Route("login")]
+    public ClientLogin Login([FromBody] LoginReq login)
+    {
+        return _services.Login(login);
     }
 
     [HttpGet]
@@ -30,7 +39,8 @@ public class ClientController : ControllerBase
     [HttpGet("{id:int}")]
     public GetClientRes GetOneClient([FromRoute] int id)
     {
-        return _services.GetOneClient(id);
+        var user = _services.GetOneClient(id);
+        return user;
     }
 
     [HttpPut("{id:int}")]

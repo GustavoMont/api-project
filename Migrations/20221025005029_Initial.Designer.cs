@@ -11,8 +11,8 @@ using api_project.Data;
 namespace order_manager.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20221011103152_MakeEmailUniqueField")]
-    partial class MakeEmailUniqueField
+    [Migration("20221025005029_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,8 +39,7 @@ namespace order_manager.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
