@@ -4,7 +4,6 @@ using api_project.Repositories;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using api_project.Dto.Client;
-using api_project.Services;
 using api_project.errors;
 
 namespace api_project.Services;
@@ -23,16 +22,26 @@ public class ClientServices
         _tokenService = tokenService;
     }
 
+    public Client GetClientById(int id, bool tracking = true)
+    {
+        var client = _repository.GetOneClient(id, tracking);
+        if (client is null)
+        {
+            throw new NotFoundException("Cliente não encontrado");
+        }
+        return client;
+    }
+
     public ClientLogin Login(LoginReq login)
     {
         var client = _repository.GetClientByEMail(login.Email);
         if (client == null)
         {
-            return null;
+            throw new BadRequestException("Usuário ou senha incorreto");
         }
         if (BCrypt.Net.BCrypt.Verify(login.Password, client.Password))
         {
-            return null;
+            throw new BadRequestException("Usuário ou senha incorreto");
         }
         var response = new ClientLogin();
         var token = _tokenService.GenerateToken(client);
@@ -61,28 +70,24 @@ public class ClientServices
     public List<GetClientRes> GetAllClients()
     {
         var clients = _repository.GetAllClients();
+        if (clients.Count == 0)
+        {
+            throw new NotFoundException("Clientes não encotrados");
+        }
         List<GetClientRes> clientsResponse = new();
         return clients.Adapt(clientsResponse);
     }
 
-    public GetClientRes GetOneClient(int id)
+    public GetClientRes GetOneClient(int id, bool tracking = true)
     {
-        var client = _repository.GetOneClient(id);
-        if (client is null)
-        {
-            return null;
-        }
+        var client = GetClientById(id, false);
         GetClientRes clientResponse = new();
         return client.Adapt(clientResponse);
     }
 
     public GetClientRes UpdateClient(int id, CreateClientReq updates)
     {
-        var client = _repository.GetOneClient(id);
-        if (client is null)
-        {
-            return null;
-        }
+        var client = GetClientById(id);
         client.Update();
         var clientUpdate = updates.Adapt(client);
         GetClientRes clientRes = new();
@@ -92,11 +97,7 @@ public class ClientServices
 
     public void DeleteClient(int id)
     {
-        var client = _repository.GetOneClient(id);
-        if (client is null)
-        {
-            return;
-        }
+        var client = GetClientById(id);
         _repository.DeleteClient(client);
         return;
     }

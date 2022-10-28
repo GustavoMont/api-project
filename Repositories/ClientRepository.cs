@@ -27,15 +27,18 @@ public class ClientRepository
         return clients;
     }
 
-    public Client GetOneClient(int id)
+    public Client GetOneClient(int id, bool tracking = true)
     {
-        var client = _contextDb.Clients.FirstOrDefault(client => client.Id == id);
-        return client;
+        return tracking
+            ? _contextDb.Clients.AsNoTracking().FirstOrDefault(client => client.Id == id)
+            : _contextDb.Clients.FirstOrDefault(client => client.Id == id);
     }
 
     public Client GetClientByEMail(string email)
     {
-        var client = _contextDb.Clients.FirstOrDefault(client => client.Email == email);
+        var client = _contextDb.Clients
+            .AsNoTracking()
+            .FirstOrDefault(client => client.Email == email);
         return client;
     }
 

@@ -33,33 +33,72 @@ public class ClientController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public ClientLogin Login([FromBody] LoginReq login)
+    public ActionResult<ClientLogin> Login([FromBody] LoginReq login)
     {
-        return _services.Login(login);
+        try
+        {
+            return Ok(_services.Login(login));
+        }
+        catch (BadRequestException e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
     }
 
     [HttpGet]
-    public List<GetClientRes> GetAllClients()
+    public ActionResult<List<GetClientRes>> GetAllClients()
     {
-        return _services.GetAllClients();
+        try
+        {
+            return Ok(_services.GetAllClients());
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
     }
 
     [HttpGet("{id:int}")]
-    public GetClientRes GetOneClient([FromRoute] int id)
+    public ActionResult<GetClientRes> GetOneClient([FromRoute] int id)
     {
-        var user = _services.GetOneClient(id);
-        return user;
+        try
+        {
+            var user = _services.GetOneClient(id, false);
+            return Ok(user);
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
     }
 
     [HttpPut("{id:int}")]
-    public GetClientRes UpdateClient([FromRoute] int id, [FromBody] CreateClientReq client)
+    public ActionResult<GetClientRes> UpdateClient(
+        [FromRoute] int id,
+        [FromBody] CreateClientReq client
+    )
     {
-        return _services.UpdateClient(id, client);
+        try
+        {
+            return Ok(_services.UpdateClient(id, client));
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
     }
 
     [HttpDelete("{id:int}")]
-    public void DeleteClient([FromRoute] int id)
+    public ActionResult DeleteClient([FromRoute] int id)
     {
-        _services.DeleteClient(id);
+        try
+        {
+            _services.DeleteClient(id);
+            return NoContent();
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
     }
 }
