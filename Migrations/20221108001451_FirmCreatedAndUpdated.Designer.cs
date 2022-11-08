@@ -11,8 +11,8 @@ using api_project.Data;
 namespace order_manager.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20221004094935_UpdatigModels")]
-    partial class UpdatigModels
+    [Migration("20221108001451_FirmCreatedAndUpdated")]
+    partial class FirmCreatedAndUpdated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,12 +27,6 @@ namespace order_manager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ContactId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ContractId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -45,17 +39,15 @@ namespace order_manager.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Clients");
                 });
@@ -66,10 +58,7 @@ namespace order_manager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CientId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -98,6 +87,9 @@ namespace order_manager.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(18)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
@@ -105,6 +97,9 @@ namespace order_manager.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -267,7 +262,9 @@ namespace order_manager.Migrations
                 {
                     b.HasOne("api_project.Models.Client", "Client")
                         .WithMany("Contract")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("api_project.Models.Service", "Service")
                         .WithMany("Contract")

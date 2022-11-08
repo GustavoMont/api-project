@@ -11,8 +11,8 @@ using api_project.Data;
 namespace order_manager.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20221004095845_RemoveWrongFields")]
-    partial class RemoveWrongFields
+    [Migration("20221025005029_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,17 +39,15 @@ namespace order_manager.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Clients");
                 });
