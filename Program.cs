@@ -6,6 +6,8 @@ using order_manager.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using order_manager.Services;
+using order_manager.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ builder.Services.AddCors();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<ClientServices>();
+builder.Services.AddScoped<ProfessionalServices>();
+builder.Services.AddScoped<ProfessionalRepository>();
 builder.Services
     .AddAuthentication(auth =>
     {

@@ -11,8 +11,8 @@ using api_project.Data;
 namespace order_manager.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20221108001451_FirmCreatedAndUpdated")]
-    partial class FirmCreatedAndUpdated
+    [Migration("20221205204855_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
