@@ -11,8 +11,8 @@ using api_project.Data;
 namespace api_project.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20221205204855_Initial")]
-    partial class Initial
+    [Migration("20221206221224_UpdateServiceModel")]
+    partial class UpdateServiceModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -164,18 +164,15 @@ namespace api_project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CompletionDeadline")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("ContractId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int(4)");
 
                     b.Property<int>("FirmId")
                         .HasColumnType("int");
@@ -187,11 +184,8 @@ namespace api_project.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("float(10)");
 
-                    b.Property<int?>("ServiceTypeId")
+                    b.Property<int>("ServiceTypeId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -309,7 +303,9 @@ namespace api_project.Migrations
 
                     b.HasOne("api_project.Models.ServiceType", "ServiceType")
                         .WithMany("Services")
-                        .HasForeignKey("ServiceTypeId");
+                        .HasForeignKey("ServiceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Firm");
 

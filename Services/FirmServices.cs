@@ -1,12 +1,12 @@
 using api_project.Dto.Firm;
 using api_project.Models;
 using Microsoft.AspNetCore.Mvc;
-using order_manager.Dto.Firm;
-using order_manager.Repositories;
+using api_project.Dto.Firm;
+using api_project.Repositories;
 using Mapster;
 using api_project.errors;
 
-namespace order_manager.Services;
+namespace api_project.Services;
 
 public class FirmServices
 {

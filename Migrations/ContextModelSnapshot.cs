@@ -7,7 +7,7 @@ using api_project.Data;
 
 #nullable disable
 
-namespace order_manager.Migrations
+namespace api_project.Migrations
 {
     [DbContext(typeof(Context))]
     partial class ContextModelSnapshot : ModelSnapshot
@@ -162,18 +162,15 @@ namespace order_manager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CompletionDeadline")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("ContractId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int(4)");
 
                     b.Property<int>("FirmId")
                         .HasColumnType("int");
@@ -185,11 +182,8 @@ namespace order_manager.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("float(10)");
 
-                    b.Property<int?>("ServiceTypeId")
+                    b.Property<int>("ServiceTypeId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -307,7 +301,9 @@ namespace order_manager.Migrations
 
                     b.HasOne("api_project.Models.ServiceType", "ServiceType")
                         .WithMany("Services")
-                        .HasForeignKey("ServiceTypeId");
+                        .HasForeignKey("ServiceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Firm");
 

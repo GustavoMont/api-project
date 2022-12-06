@@ -1,10 +1,10 @@
 using api_project.Dto.Firm;
 using api_project.errors;
 using Microsoft.AspNetCore.Mvc;
-using order_manager.Dto.Firm;
-using order_manager.Services;
+using api_project.Dto.Firm;
+using api_project.Services;
 
-namespace order_manager.Controllers;
+namespace api_project.Controllers;
 
 [ApiController]
 [Route("/firms")]

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace order_manager.Dto.Firm;
+namespace api_project.Dto.Firm;
 
 public class CreateFirmReq
 {

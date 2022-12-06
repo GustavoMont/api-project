@@ -1,13 +1,11 @@
 using System.Text;
 using api_project.Data;
 using api_project.Repositories;
+using api_project.Secret;
 using api_project.Services;
-using order_manager.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using order_manager.Services;
-using order_manager.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

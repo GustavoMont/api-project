@@ -1,4 +1,4 @@
-namespace order_manager.Dto.Professional;
+namespace api_project.Dto.Professional;
 
 public class CreateProfessionalReq
 {
@@ -6,5 +6,4 @@ public class CreateProfessionalReq
     public string Name { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    
 }

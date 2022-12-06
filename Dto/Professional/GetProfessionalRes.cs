@@ -1,4 +1,4 @@
-namespace order_manager.Dto.Professional;
+namespace api_project.Dto.Professional;
 
 public class GetProfessionalRes
 {

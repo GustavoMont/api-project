@@ -1,22 +1,23 @@
 using api_project.Models;
 using Microsoft.AspNetCore.Mvc;
-using order_manager.Dto.Professional;
-using order_manager.Repositories;
+using api_project.Dto.Professional;
+using api_project.Repositories;
 
-namespace order_manager.Services;
+namespace api_project.Services;
+
 public class ProfessionalServices
 {
-
     private ProfessionalRepository _repository;
 
     public ProfessionalServices([FromServices] ProfessionalRepository repository)
     {
         _repository = repository;
     }
+
     public GetProfessionalRes CreateProfessional(CreateProfessionalReq newProfessional)
     {
         var professional = new Professional();
-        ConvertResToModel(newProfessional, professional);   
+        ConvertResToModel(newProfessional, professional);
 
         _repository.CreateProfessional(professional);
 
@@ -31,10 +32,10 @@ public class ProfessionalServices
 
         List<GetProfessionalRes> professionalRes = new();
 
-        foreach(var professional in professionals)
+        foreach (var professional in professionals)
         {
-          var reply = ConverModelToRes(professional);
-          professionalRes.Add(reply);
+            var reply = ConverModelToRes(professional);
+            professionalRes.Add(reply);
         }
 
         return professionalRes;
@@ -42,35 +43,35 @@ public class ProfessionalServices
 
     public GetProfessionalRes GetOneProfessional(int id)
     {
-      var professional = _repository.GetOneProfessional(id);
-      return ConverModelToRes(professional);
+        var professional = _repository.GetOneProfessional(id);
+        return ConverModelToRes(professional);
     }
 
     public GetProfessionalRes UpdateProfessional(int id, CreateProfessionalReq updates)
     {
-      var professional = _repository.GetOneProfessional(id);
+        var professional = _repository.GetOneProfessional(id);
 
-      if (professional is null)
-      {
-        return null; 
-      }
+        if (professional is null)
+        {
+            return null;
+        }
 
-      ConvertResToModel(updates, professional);
+        ConvertResToModel(updates, professional);
 
-      _repository.UpdateProfessional();
+        _repository.UpdateProfessional();
 
-      return ConverModelToRes(professional);
+        return ConverModelToRes(professional);
     }
 
     public void DeleteProfessional(int id)
     {
-      var professional = _repository.GetOneProfessional(id);
-      if (professional is null)
-      {
-        return ;
-      }
+        var professional = _repository.GetOneProfessional(id);
+        if (professional is null)
+        {
+            return;
+        }
 
-      _repository.DeleteProfessional(professional);
+        _repository.DeleteProfessional(professional);
     }
 
     private GetProfessionalRes ConverModelToRes(Professional model)
@@ -86,9 +87,9 @@ public class ProfessionalServices
 
     private void ConvertResToModel(CreateProfessionalReq request, Professional model)
     {
-      model.Ocupation = request.Ocupation;
-      model.Name = request.Name;
-      model.Email = request.Email;
-      model.Password = request.Password;
+        model.Ocupation = request.Ocupation;
+        model.Name = request.Name;
+        model.Email = request.Email;
+        model.Password = request.Password;
     }
 }

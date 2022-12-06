@@ -3,7 +3,7 @@ using api_project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace order_manager.Repositories;
+namespace api_project.Repositories;
 
 public class FirmRepository
 {

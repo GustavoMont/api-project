@@ -2,8 +2,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using api_project.Models;
+using api_project.Secret;
 using Microsoft.IdentityModel.Tokens;
-using order_manager.Settings;
 
 namespace api_project.Services;
 
