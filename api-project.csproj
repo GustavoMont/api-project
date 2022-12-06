@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>order_manager</RootNamespace>
+    <RootNamespace>api_project</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
