@@ -14,5 +14,6 @@ public class ServiceCreateReq
     [Required(ErrorMessage = "Descrição é um campo obrigatório")]
     [StringLength(200, MinimumLength = 50)]
     public string Description { get; set; }
+    public int ServiceTypeId { get; set; }
     public int FirmId { get; set; }
 }

@@ -30,8 +30,8 @@ public class ClientRepository
     public Client GetOneClient(int id, bool tracking = true)
     {
         return tracking
-            ? _contextDb.Clients.AsNoTracking().FirstOrDefault(client => client.Id == id)
-            : _contextDb.Clients.FirstOrDefault(client => client.Id == id);
+            ? _contextDb.Clients.FirstOrDefault(client => client.Id == id)
+            : _contextDb.Clients.AsNoTracking().FirstOrDefault(client => client.Id == id);
     }
 
     public Client GetClientByEMail(string email)
