@@ -2,93 +2,70 @@ using api_project.Models;
 using Microsoft.AspNetCore.Mvc;
 using order_manager.Dto.Professional;
 using order_manager.Repositories;
+using Mapster;
 
 namespace order_manager.Services;
 public class ProfessionalServices
 {
 
-    private ProfessionalRepository _repository;
+    private readonly ProfessionalRepository _repository;
 
     public ProfessionalServices([FromServices] ProfessionalRepository repository)
     {
         _repository = repository;
     }
     public GetProfessionalRes CreateProfessional(CreateProfessionalReq newProfessional)
-    {
-        var professional = new Professional();
-        ConvertResToModel(newProfessional, professional);   
+    {  
+        var professional = newProfessional.Adapt<Professional>();
 
         _repository.CreateProfessional(professional);
 
-        var reply = ConverModelToRes(professional);
-
+        var reply = professional.Adapt<GetProfessionalRes>();
         return reply;
     }
 
     public List<GetProfessionalRes> GetAllProfessionals()
     {
         var professionals = _repository.GetAllProfessionals();
-
-        List<GetProfessionalRes> professionalRes = new();
-
-        foreach(var professional in professionals)
-        {
-          var reply = ConverModelToRes(professional);
-          professionalRes.Add(reply);
-        }
-
-        return professionalRes;
-    }
-
-    public GetProfessionalRes GetOneProfessional(int id)
-    {
-      var professional = _repository.GetOneProfessional(id);
-      return ConverModelToRes(professional);
-    }
-
-    public GetProfessionalRes UpdateProfessional(int id, CreateProfessionalReq updates)
-    {
-      var professional = _repository.GetOneProfessional(id);
-
-      if (professional is null)
-      {
-        return null; 
-      }
-
-      ConvertResToModel(updates, professional);
-
-      _repository.UpdateProfessional();
-
-      return ConverModelToRes(professional);
-    }
-
-    public void DeleteProfessional(int id)
-    {
-      var professional = _repository.GetOneProfessional(id);
-      if (professional is null)
-      {
-        return ;
-      }
-
-      _repository.DeleteProfessional(professional);
-    }
-
-    private GetProfessionalRes ConverModelToRes(Professional model)
-    {
-        var reply = new GetProfessionalRes();
-        reply.Id = model.Id;
-        reply.Ocupation = model.Ocupation;
-        reply.Name = model.Name;
-        reply.Email = model.Email;
+        
+        var reply = professionals.Adapt<List<GetProfessionalRes>>();
 
         return reply;
     }
 
-    private void ConvertResToModel(CreateProfessionalReq request, Professional model)
+    public GetProfessionalRes GetOneProfessional(int id)
     {
-      model.Ocupation = request.Ocupation;
-      model.Name = request.Name;
-      model.Email = request.Email;
-      model.Password = request.Password;
+      var professional = _repository.GetOneProfessional(id, false);
+      
+      return professional.Adapt<GetProfessionalRes>();
+    }
+
+    public GetProfessionalRes UpdateProfessional(int id, CreateProfessionalReq updates)
+    {
+      var professional = GetProfessionalById(id);
+
+      updates.Adapt(professional);
+
+      _repository.UpdateProfessional();
+
+      return professional.Adapt<GetProfessionalRes>();
+    }
+
+    public void DeleteProfessional(int id)
+    {
+      var professional = GetProfessionalById(id);
+
+      _repository.DeleteProfessional(professional);
+    }
+
+    private Professional GetProfessionalById(int id, bool tracking = true)
+    {
+      var professional = _repository.GetOneProfessional(id, tracking);
+      if (professional is null)
+      {
+        throw new Exception("Profissional não encontrado!");
+      }
+
+      return professional;
     }
 }
