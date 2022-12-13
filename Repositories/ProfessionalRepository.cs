@@ -1,12 +1,13 @@
 using api_project.Data;
 using api_project.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api_project.Repositories;
 
 public class ProfessionalRepository
 {
-    private Context _context;
+    private readonly Context _context;
 
     public ProfessionalRepository([FromServices] Context context)
     {
@@ -23,12 +24,16 @@ public class ProfessionalRepository
 
     public List<Professional> GetAllProfessionals()
     {
-        return _context.Professionals.ToList();
+        return _context.Professionals.AsNoTracking().ToList();
     }
 
-    public Professional GetOneProfessional(int id)
+    public Professional GetOneProfessional(int id, bool tracking = true)
     {
-        return _context.Professionals.FirstOrDefault(professional => professional.Id == id);
+        return (tracking)
+            ? _context.Professionals.FirstOrDefault(professional => professional.Id == id)
+            : _context.Professionals
+                .AsNoTracking()
+                .FirstOrDefault(professional => professional.Id == id);
     }
 
     public void UpdateProfessional()

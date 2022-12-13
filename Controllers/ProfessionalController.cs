@@ -8,43 +8,69 @@ namespace api_project.Controllers;
 [Route("professionals")]
 public class ProfessionalController : ControllerBase
 {
-    private ProfessionalServices _services;
+    private readonly ProfessionalServices _services;
 
     public ProfessionalController([FromServices] ProfessionalServices services)
     {
         _services = services;
     }
 
-    [HttpPost]
-    public GetProfessionalRes PostProfessional([FromBody] CreateProfessionalReq newProfessionalReq)
-    {
-        return _services.CreateProfessional(newProfessionalReq);
-    }
-
     [HttpGet]
-    public List<GetProfessionalRes> GetAllProfessionals()
+    public ActionResult<List<GetProfessionalRes>> GetAllProfessionals()
     {
-        return _services.GetAllProfessionals();
+        return Ok(_services.GetAllProfessionals());
     }
 
     [HttpGet("{id:int}")]
-    public GetProfessionalRes GetProfessional([FromRoute] int id)
+    public ActionResult<GetProfessionalRes> GetProfessional([FromRoute] int id)
     {
-        return _services.GetOneProfessional(id);
+        try
+        {
+            return Ok(_services.GetOneProfessional(id));
+        }
+        catch (Exception e)
+        {
+            return NotFound(e.Message);
+        }
+    }
+
+    [HttpPost]
+    public ActionResult<GetProfessionalRes> PostProfessional(
+        [FromBody] CreateProfessionalReq newProfessionalReq
+    )
+    {
+        var reply = _services.CreateProfessional(newProfessionalReq);
+        return CreatedAtAction(nameof(GetProfessional), new { id = reply.Id }, reply);
     }
 
     [HttpPut("{id:int}")]
-    public GetProfessionalRes PutProfessional(
+    public ActionResult<GetProfessionalRes> PutProfessional(
         [FromRoute] int id,
         [FromBody] CreateProfessionalReq professional
     )
     {
-        return _services.UpdateProfessional(id, professional);
+        try
+        {
+            return Ok(_services.UpdateProfessional(id, professional));
+        }
+        catch (Exception e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
     [HttpDelete("{id:int}")]
-    public void DeleteProfessional([FromRoute] int id)
+    public ActionResult DeleteProfessional([FromRoute] int id)
     {
-        _services.DeleteProfessional(id);
+        try
+        {
+            _services.DeleteProfessional(id);
+
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return NotFound(e.Message);
+        }
     }
 }
