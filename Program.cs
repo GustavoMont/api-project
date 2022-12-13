@@ -18,10 +18,12 @@ builder.Services.AddScoped<ProfessionalRepository>();
 builder.Services.AddScoped<ServiceTypeRepository>();
 builder.Services.AddScoped<ServiceRepository>();
 builder.Services.AddScoped<ClientRepository>();
+builder.Services.AddScoped<FirmRepository>();
 builder.Services.AddScoped<ProfessionalServices>();
 builder.Services.AddScoped<ServiceTypeService>();
 builder.Services.AddScoped<ServiceServices>();
 builder.Services.AddScoped<ClientServices>();
+builder.Services.AddScoped<FirmServices>();
 builder.Services.AddScoped<TokenService>();
 builder.Services
     .AddAuthentication(auth =>

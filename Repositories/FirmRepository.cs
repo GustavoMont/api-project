@@ -30,8 +30,8 @@ public class FirmRepository
     public Firm GetOneFirm(int id, bool tracking = true)
     {
         return tracking
-            ? _contextDb.Firms.AsNoTracking().FirstOrDefault(firm => firm.Id == id)
-            : _contextDb.Firms.FirstOrDefault(firm => firm.Id == id);
+            ? _contextDb.Firms.FirstOrDefault(firm => firm.Id == id)
+            : _contextDb.Firms.AsNoTracking().FirstOrDefault(firm => firm.Id == id);
     }
 
     public void UpdateFirm()

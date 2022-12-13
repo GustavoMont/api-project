@@ -1,9 +1,9 @@
 using api_project.Dto.Firm;
 using api_project.Models;
+using api_project.errors;
 using Microsoft.AspNetCore.Mvc;
 using api_project.Repositories;
 using Mapster;
-using api_project.errors;
 
 namespace api_project.Services;
 
@@ -39,7 +39,7 @@ public class FirmServices
         var firms = _repository.GetAllFirm();
         if (firms.Count == 0)
         {
-            throw new NotFoundException("Firmes não encotrados");
+            throw new NotFoundException("Firms não encotrados");
         }
 
         return firms.Adapt<List<FirmRes>>();

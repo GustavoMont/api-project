@@ -14,6 +14,10 @@ public class ServiceCreateReq
     [Required(ErrorMessage = "Descrição é um campo obrigatório")]
     [StringLength(200, MinimumLength = 50)]
     public string Description { get; set; }
+
+    [Required(ErrorMessage = "Não é possível criar um Serviço sem tipo")]
     public int ServiceTypeId { get; set; }
+
+    [Required(ErrorMessage = "Serviço tem que estart atribuído à uma empresa")]
     public int FirmId { get; set; }
 }
