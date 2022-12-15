@@ -10,14 +10,32 @@ namespace api_project.Services;
 public class ServiceServices
 {
     private readonly ServiceRepository _repository;
+    private readonly FirmRepository _firmRepository;
+    private readonly ServiceTypeRepository _serviceTypeRepository;
 
-    public ServiceServices([FromServices] ServiceRepository repository)
+    public ServiceServices(
+        [FromServices] ServiceRepository repository,
+        [FromServices] FirmRepository firmRepository,
+        [FromServices] ServiceTypeRepository serviceTypeRepository
+    )
     {
         _repository = repository;
+        _firmRepository = firmRepository;
+        _serviceTypeRepository = serviceTypeRepository;
     }
 
     public ServiceRes CreateService(ServiceCreateReq newService)
     {
+        var firm = _firmRepository.GetOneFirm((int)newService.FirmId);
+        if (firm is null)
+        {
+            throw new BadHttpRequestException("Firma não existente");
+        }
+        var serviceType = _serviceTypeRepository.GetOneServiceType((int)newService.ServiceTypeId);
+        if (serviceType is null)
+        {
+            throw new BadHttpRequestException("Insira um tipo de serviço válido");
+        }
         var service = _repository.CreateService(newService.Adapt<Service>());
         return service.Adapt<ServiceRes>();
     }
@@ -27,12 +45,12 @@ public class ServiceServices
         var services = _repository.GetAllServices();
         if (services.Count == 0)
         {
-            throw new NotFoundException("Não há nenhum serviço cadastrado");
+            throw new NotFoundException("Serviços não cadastrados");
         }
         return services.Adapt<List<ServiceRes>>();
     }
 
-    private Service GetById(int id, bool tracking = true)
+    public Service GetServiceById(int id, bool tracking = true)
     {
         var service = _repository.GetOneService(id, tracking);
         if (service is null)
@@ -44,9 +62,7 @@ public class ServiceServices
 
     public ServiceRes GetOneService(int id)
     {
-        var service = GetById(id, false);
-        System.Console.WriteLine(service.Name);
-        System.Console.WriteLine(id);
+        var service = GetServiceById(id, false);
         return service.Adapt<ServiceRes>();
     }
 }

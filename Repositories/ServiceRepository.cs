@@ -14,22 +14,27 @@ public class ServiceRepository
         _context = context;
     }
 
-    public Service CreateService(Service service)
+    public Service CreateService(Service newService)
     {
-        _context.Services.Add(service);
+        _context.Services.Add(newService);
         _context.SaveChanges();
-        return service;
+        return newService;
     }
 
     public List<Service> GetAllServices()
     {
-        return _context.Services.AsNoTracking().ToList();
+        return _context.Services.AsNoTracking().Include(service => service.ServiceType).ToList();
     }
 
     public Service GetOneService(int id, bool tracking = true)
     {
         return tracking
-            ? _context.Services.FirstOrDefault(s => s.Id == id)
-            : _context.Services.AsNoTracking().FirstOrDefault(s => s.Id == id);
+            ? _context.Services
+                .Include(service => service.ServiceType)
+                .FirstOrDefault(service => service.Id == id)
+            : _context.Services
+                .AsNoTracking()
+                .Include(service => service.ServiceType)
+                .FirstOrDefault(service => service.Id == id);
     }
 }

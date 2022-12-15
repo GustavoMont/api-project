@@ -9,15 +9,19 @@ public class ServiceCreateReq
     public string Name { get; set; }
 
     [Required(ErrorMessage = "Preço é um campo obrigatório")]
-    public decimal Price { get; set; }
+    public decimal? Price { get; set; }
 
     [Required(ErrorMessage = "Descrição é um campo obrigatório")]
-    [StringLength(200, MinimumLength = 50)]
+    [StringLength(
+        200,
+        MinimumLength = 50,
+        ErrorMessage = "A Descrição deve ter entre {2} e {1} caractéries"
+    )]
     public string Description { get; set; }
 
-    [Required(ErrorMessage = "Não é possível criar um Serviço sem tipo")]
-    public int ServiceTypeId { get; set; }
+    [Required(ErrorMessage = "O serviço deve ter um tipo.")]
+    public int? ServiceTypeId { get; set; }
 
-    [Required(ErrorMessage = "Serviço tem que estart atribuído à uma empresa")]
-    public int FirmId { get; set; }
+    [Required(ErrorMessage = "O serviço deve ser atribuído a uma empresa.")]
+    public int? FirmId { get; set; }
 }

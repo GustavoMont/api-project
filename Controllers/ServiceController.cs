@@ -9,17 +9,28 @@ namespace api_project.Controllers;
 [Route("services")]
 public class ServiceController : ControllerBase
 {
-    private readonly ServiceServices _services;
+    private readonly ServiceServices _service;
 
     public ServiceController([FromServices] ServiceServices service)
     {
-        _services = service;
+        _service = service;
     }
 
     [HttpPost]
     public ActionResult<ServiceRes> CreateService([FromBody] ServiceCreateReq newService)
     {
-        return StatusCode(201, _services.CreateService(newService));
+        try
+        {
+            return StatusCode(201, _service.CreateService(newService));
+        }
+        catch (BadHttpRequestException err)
+        {
+            return BadRequest(new { message = err.Message });
+        }
+        catch (Exception err)
+        {
+            return StatusCode(500, new { message = err.Message });
+        }
     }
 
     [HttpGet]
@@ -27,25 +38,33 @@ public class ServiceController : ControllerBase
     {
         try
         {
-            return Ok(_services.GetAllServices());
+            return Ok(_service.GetAllServices());
         }
         catch (NotFoundException err)
         {
             return NotFound(new { message = err.Message });
+        }
+        catch (Exception err)
+        {
+            return StatusCode(500, new { message = err.Message });
         }
     }
 
     [HttpGet]
     [Route("{id:int}")]
-    public ActionResult<List<ServiceRes>> GetOneService([FromRoute] int id)
+    public ActionResult<ServiceRes> GetOneService([FromRoute] int id)
     {
         try
         {
-            return Ok(_services.GetOneService(id));
+            return Ok(_service.GetOneService(id));
         }
         catch (NotFoundException err)
         {
             return NotFound(new { message = err.Message });
+        }
+        catch (Exception err)
+        {
+            return StatusCode(500, new { message = err.Message });
         }
     }
 }
