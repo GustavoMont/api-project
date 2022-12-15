@@ -4,16 +4,22 @@ using api_project.errors;
 using Microsoft.AspNetCore.Mvc;
 using api_project.Repositories;
 using Mapster;
+using api_project.Dto.Login;
 
 namespace api_project.Services;
 
 public class FirmServices
 {
     private FirmRepository _repository;
+    private TokenService _tokenService;
 
-    public FirmServices([FromServices] FirmRepository repository)
+    public FirmServices(
+        [FromServices] FirmRepository repository,
+        [FromServices] TokenService tokenService
+    )
     {
         _repository = repository;
+        _tokenService = tokenService;
     }
 
     public Firm GetFirmById(int id, bool tracking = true)
@@ -26,12 +32,43 @@ public class FirmServices
         return firm;
     }
 
-    public FirmRes CreateFirm(CreateFirmReq FirmReq)
+    public TokenRes GetTokenRes(Firm firm)
     {
-        var newFirm = FirmReq.Adapt<Firm>();
+        var token = _tokenService.GenerateToken(firm);
+        var response = new TokenRes { Access = token };
+        return response;
+    }
 
-        _repository.CreateFirm(newFirm);
-        return newFirm.Adapt<FirmRes>();
+    public TokenRes CreateFirm(CreateFirmReq FirmReq)
+    {
+        if (FirmReq.Password != FirmReq.ConfirmPassword)
+        {
+            throw new BadHttpRequestException("As senhas não estão iguais");
+        }
+        var existFirm = _repository.GetByCnpjOrEmail(FirmReq.Email, FirmReq.Cnpj);
+        if (existFirm is not null)
+        {
+            throw new BadHttpRequestException("Empresa já cadastrada");
+        }
+        var newFirm = FirmReq.Adapt<Firm>();
+        newFirm.Password = BCrypt.Net.BCrypt.HashPassword(newFirm.Password);
+        var firm = _repository.CreateFirm(newFirm);
+        return GetTokenRes(firm);
+    }
+
+    public TokenRes Login(LoginReq login)
+    {
+        var firm = _repository.GetByCnpjOrEmail(login.Credential, login.Credential);
+        if (firm is null)
+        {
+            throw new BadHttpRequestException("Usuário ou senha incorretos");
+        }
+        if (!BCrypt.Net.BCrypt.Verify(login.Password, firm.Password))
+        {
+            throw new BadHttpRequestException("Usuário ou senha incorreto");
+        }
+        firm.Password = "";
+        return GetTokenRes(firm);
     }
 
     public List<FirmRes> GetAllFirms()

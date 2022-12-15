@@ -2,6 +2,7 @@ using api_project.Dto.Firm;
 using api_project.errors;
 using Microsoft.AspNetCore.Mvc;
 using api_project.Services;
+using api_project.Dto.Login;
 
 namespace api_project.Controllers;
 
@@ -19,7 +20,36 @@ public class FirmController : ControllerBase
     [HttpPost]
     public ActionResult<FirmRes> PostFirm([FromBody] CreateFirmReq newFirmReq)
     {
-        return Ok(_services.CreateFirm(newFirmReq));
+        try
+        {
+            return StatusCode(201, _services.CreateFirm(newFirmReq));
+        }
+        catch (BadHttpRequestException err)
+        {
+            return BadRequest(new { message = err.Message });
+        }
+        catch (Exception err)
+        {
+            return StatusCode(500, new { message = err.Message });
+        }
+    }
+
+    [HttpPost]
+    [Route("login")]
+    public ActionResult<TokenRes> Login([FromBody] LoginReq login)
+    {
+        try
+        {
+            return Ok(_services.Login(login));
+        }
+        catch (BadHttpRequestException err)
+        {
+            return BadRequest(new { message = err.Message });
+        }
+        catch (Exception err)
+        {
+            return StatusCode(500, new { message = err.Message });
+        }
     }
 
     [HttpGet]

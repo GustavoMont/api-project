@@ -14,6 +14,14 @@ public class FirmRepository
         _contextDb = context;
     }
 
+    public Firm GetByCnpjOrEmail(string email, string cnpj)
+    {
+        var firm = _contextDb.Firms.FirstOrDefault(
+            firm => firm.Email == email || firm.Cnpj == cnpj
+        );
+        return firm;
+    }
+
     public Firm CreateFirm(Firm firm)
     {
         _contextDb.Firms.Add(firm);

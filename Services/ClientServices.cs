@@ -32,9 +32,9 @@ public class ClientServices
         return client;
     }
 
-    public ClientLogin Login(LoginReq login)
+    public TokenRes Login(LoginReq login)
     {
-        var client = _repository.GetClientByEMail(login.Email);
+        var client = _repository.GetClientByEMail(login.Credential);
         if (client == null)
         {
             throw new BadRequestException("Usuário ou senha incorreto");
@@ -43,14 +43,14 @@ public class ClientServices
         {
             throw new BadRequestException("Usuário ou senha incorreto");
         }
-        var response = new ClientLogin();
+        var response = new TokenRes();
         var token = _tokenService.GenerateToken(client);
         response.Access = token;
         client.Password = "";
         return response;
     }
 
-    public ClientLogin CreateClient(CreateClientReq clientReq)
+    public TokenRes CreateClient(CreateClientReq clientReq)
     {
         var client = new Client();
         client.Name = clientReq.Name;
@@ -60,10 +60,10 @@ public class ClientServices
             throw new BadRequestException("As senhas estão diferentes");
         }
         client.Password = BCrypt.Net.BCrypt.HashPassword(clientReq.Password);
-        client.Password = "";
         _repository.CreateClient(client);
+        client.Password = "";
         var token = _tokenService.GenerateToken(client);
-        var response = new ClientLogin { Access = token };
+        var response = new TokenRes { Access = token };
         return response;
     }
 

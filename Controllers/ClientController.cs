@@ -19,7 +19,7 @@ public class ClientController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<ClientLogin> CreateClient([FromBody] CreateClientReq newClientReq)
+    public ActionResult<TokenRes> CreateClient([FromBody] CreateClientReq newClientReq)
     {
         try
         {
@@ -33,7 +33,7 @@ public class ClientController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public ActionResult<ClientLogin> Login([FromBody] LoginReq login)
+    public ActionResult<TokenRes> Login([FromBody] LoginReq login)
     {
         try
         {

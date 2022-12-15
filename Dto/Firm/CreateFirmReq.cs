@@ -20,4 +20,12 @@ public class CreateFirmReq
     [StringLength(100, MinimumLength = 10)]
     [RegularExpression("^\\S+@\\S+\\.\\S+$", ErrorMessage = "Insira um email válido")]
     public string Email { get; set; }
+
+    [Required]
+    [RegularExpression(
+        "^(?=.*[A-Za-z])(?=.*?[0-9]).{8,}$",
+        ErrorMessage = "A senha deve ter no mínimo 8 caracteres, uma letra e um número"
+    )]
+    public string Password { get; set; }
+    public string ConfirmPassword { get; set; }
 }

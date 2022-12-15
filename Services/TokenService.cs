@@ -9,7 +9,7 @@ namespace api_project.Services;
 
 public class TokenService
 {
-    public string GenerateToken(Client client)
+    public string GenerateToken(dynamic entity)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(Settings.Secret);
@@ -18,9 +18,9 @@ public class TokenService
             Subject = new ClaimsIdentity(
                 new[]
                 {
-                    new Claim(ClaimTypes.Name, client.Name),
-                    new Claim(ClaimTypes.Email, client.Email),
-                    new Claim("id", client.Id.ToString())
+                    new Claim(ClaimTypes.Name, entity.Name),
+                    new Claim(ClaimTypes.Email, entity.Email),
+                    new Claim("id", entity.Id.ToString())
                 }
             ),
             Expires = DateTime.Now.AddHours(8),

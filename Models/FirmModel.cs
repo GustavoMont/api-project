@@ -1,8 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace api_project.Models;
 
+[Index(nameof(Email), IsUnique = true)]
+[Index(nameof(Cnpj), IsUnique = true)]
 public class Firm
 {
     [Required]
@@ -34,6 +37,9 @@ public class Firm
     [Required]
     [Column(TypeName = "varchar(100)")]
     public string Email { get; set; }
+
+    public string Password { get; set; }
+
     public List<Service> Services { get; set; }
     public List<Professional> Professionals { get; set; }
 }
