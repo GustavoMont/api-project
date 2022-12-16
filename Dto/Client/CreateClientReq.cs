@@ -18,7 +18,7 @@ public class CreateClientReq
 
     [Required]
     [RegularExpression(
-        "^(?=.*[A-Za-z])(?=.*?[0-9]){8,}$",
+        "^(?=.*[A-Za-z])(?=.*?[0-9]).{8,}$",
         ErrorMessage = "A senha deve ter no mínimo 8 caracteres, uma letra e um número"
     )]
     public string Password { get; set; }

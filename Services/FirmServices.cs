@@ -34,7 +34,7 @@ public class FirmServices
 
     public TokenRes GetTokenRes(Firm firm)
     {
-        var token = _tokenService.GenerateToken(firm);
+        var token = _tokenService.GenerateToken(firm, "Firm");
         var response = new TokenRes { Access = token };
         return response;
     }

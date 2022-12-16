@@ -58,7 +58,6 @@ public class ServiceTypeService
     public void DeleteServiceType(int id)
     {
         var serviceType = GetById(id);
-        System.Console.WriteLine(serviceType.Name);
         _repository.DeleteServiceType(serviceType);
     }
 }

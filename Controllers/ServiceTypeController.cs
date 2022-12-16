@@ -1,6 +1,7 @@
 using api_project.Dto.ServiceType;
 using api_project.errors;
 using api_project.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api_project.Controllers;
@@ -44,6 +45,7 @@ public class ServiceTypeController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Firm")]
     public ActionResult<ServiceTypeRes> CreateServiceType(
         [FromBody] ServiceTypeCreateUpdateReq newServiceType
     )

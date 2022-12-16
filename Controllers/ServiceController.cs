@@ -1,6 +1,7 @@
 using api_project.Dto.Services;
 using api_project.errors;
 using api_project.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api_project.Controllers;
@@ -16,12 +17,19 @@ public class ServiceController : ControllerBase
         _service = service;
     }
 
+    public int GetFirmId()
+    {
+        var id = Convert.ToInt32(HttpContext.User.FindFirst("id").Value);
+        return id;
+    }
+
     [HttpPost]
+    [Authorize(Roles = "Firm")]
     public ActionResult<ServiceRes> CreateService([FromBody] ServiceCreateReq newService)
     {
         try
         {
-            return StatusCode(201, _service.CreateService(newService));
+            return StatusCode(201, _service.CreateService(newService, GetFirmId()));
         }
         catch (BadHttpRequestException err)
         {

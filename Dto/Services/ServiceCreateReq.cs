@@ -21,7 +21,5 @@ public class ServiceCreateReq
 
     [Required(ErrorMessage = "O serviço deve ter um tipo.")]
     public int? ServiceTypeId { get; set; }
-
-    [Required(ErrorMessage = "O serviço deve ser atribuído a uma empresa.")]
     public int? FirmId { get; set; }
 }

@@ -23,7 +23,11 @@ public class ServiceRepository
 
     public List<Service> GetAllServices()
     {
-        return _context.Services.AsNoTracking().Include(service => service.ServiceType).ToList();
+        return _context.Services
+            .AsNoTracking()
+            .Include(service => service.ServiceType)
+            .Include(service => service.Firm)
+            .ToList();
     }
 
     public Service GetOneService(int id, bool tracking = true)
@@ -31,10 +35,12 @@ public class ServiceRepository
         return tracking
             ? _context.Services
                 .Include(service => service.ServiceType)
+                .Include(service => service.Firm)
                 .FirstOrDefault(service => service.Id == id)
             : _context.Services
                 .AsNoTracking()
                 .Include(service => service.ServiceType)
+                .Include(service => service.Firm)
                 .FirstOrDefault(service => service.Id == id);
     }
 }

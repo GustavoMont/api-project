@@ -24,9 +24,9 @@ public class ServiceServices
         _serviceTypeRepository = serviceTypeRepository;
     }
 
-    public ServiceRes CreateService(ServiceCreateReq newService)
+    public ServiceRes CreateService(ServiceCreateReq newService, int firmId)
     {
-        var firm = _firmRepository.GetOneFirm((int)newService.FirmId);
+        var firm = _firmRepository.GetOneFirm(firmId);
         if (firm is null)
         {
             throw new BadHttpRequestException("Firma não existente");
@@ -36,6 +36,7 @@ public class ServiceServices
         {
             throw new BadHttpRequestException("Insira um tipo de serviço válido");
         }
+        newService.FirmId = firmId;
         var service = _repository.CreateService(newService.Adapt<Service>());
         return service.Adapt<ServiceRes>();
     }

@@ -8,5 +8,12 @@ public class ServiceRes
     public decimal Price { get; set; }
     public string Description { get; set; }
     public int ServiceTypeId { get; set; }
+    public int FirmId { get; set; }
+    public ServiceFirm Firm { get; set; }
     public ServiceTypeRes ServiceType { get; set; }
+}
+
+public class ServiceFirm
+{
+    public string Name { get; set; }
 }
