@@ -10,29 +10,41 @@ namespace api_project.Services;
 public class ServiceServices
 {
     private readonly ServiceRepository _repository;
-    private readonly FirmRepository _firmRepository;
+    private readonly FirmServices _firmService;
     private readonly ServiceTypeRepository _serviceTypeRepository;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public ServiceServices(
         [FromServices] ServiceRepository repository,
-        [FromServices] FirmRepository firmRepository,
-        [FromServices] ServiceTypeRepository serviceTypeRepository
+        [FromServices] FirmServices firmServices,
+        [FromServices] ServiceTypeRepository serviceTypeRepository,
+        [FromServices] IHttpContextAccessor httpContextAccessor
     )
     {
         _repository = repository;
-        _firmRepository = firmRepository;
+        _firmService = firmServices;
         _serviceTypeRepository = serviceTypeRepository;
+        _httpContextAccessor = httpContextAccessor;
     }
 
-    public ServiceRes CreateService(ServiceCreateReq newService, int firmId)
+    public ServiceRes CreateService(ServiceCreateReq newService)
     {
-        var firm = _firmRepository.GetOneFirm(firmId);
-        if (firm is null)
+        var firmId = _firmService.GetFirmId();
+        try
         {
-            throw new BadHttpRequestException("Firma não existente");
+            var firm = _firmService.GetOneFirm(firmId);
         }
-        var serviceType = _serviceTypeRepository.GetOneServiceType((int)newService.ServiceTypeId);
-        if (serviceType is null)
+        catch (Exception err)
+        {
+            throw new BadHttpRequestException(err.Message);
+        }
+        try
+        {
+            var serviceType = _serviceTypeRepository.GetOneServiceType(
+                (int)newService.ServiceTypeId
+            );
+        }
+        catch (System.Exception)
         {
             throw new BadHttpRequestException("Insira um tipo de serviço válido");
         }

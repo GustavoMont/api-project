@@ -17,19 +17,13 @@ public class ServiceController : ControllerBase
         _service = service;
     }
 
-    public int GetFirmId()
-    {
-        var id = Convert.ToInt32(HttpContext.User.FindFirst("id").Value);
-        return id;
-    }
-
     [HttpPost]
     [Authorize(Roles = "Firm")]
     public ActionResult<ServiceRes> CreateService([FromBody] ServiceCreateReq newService)
     {
         try
         {
-            return StatusCode(201, _service.CreateService(newService, GetFirmId()));
+            return StatusCode(201, _service.CreateService(newService));
         }
         catch (BadHttpRequestException err)
         {

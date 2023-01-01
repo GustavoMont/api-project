@@ -12,14 +12,24 @@ public class FirmServices
 {
     private FirmRepository _repository;
     private TokenService _tokenService;
+    private readonly IHttpContextAccessor _httpContext;
 
     public FirmServices(
         [FromServices] FirmRepository repository,
-        [FromServices] TokenService tokenService
+        [FromServices] TokenService tokenService,
+        [FromServices] IHttpContextAccessor httpContext
     )
     {
         _repository = repository;
         _tokenService = tokenService;
+        _httpContext = httpContext;
+    }
+
+    public int GetFirmId()
+    {
+        var HttpContext = _httpContext.HttpContext;
+        var id = Convert.ToInt32(HttpContext.User.FindFirst("id").Value);
+        return id;
     }
 
     public Firm GetFirmById(int id, bool tracking = true)

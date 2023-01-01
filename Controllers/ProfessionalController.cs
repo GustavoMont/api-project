@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using api_project.Dto.Professional;
 using api_project.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api_project.Controllers;
 
@@ -35,6 +36,7 @@ public class ProfessionalController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Firm")]
     public ActionResult<GetProfessionalRes> PostProfessional(
         [FromBody] CreateProfessionalReq newProfessionalReq
     )
@@ -44,6 +46,7 @@ public class ProfessionalController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Roles = "Firm")]
     public ActionResult<GetProfessionalRes> PutProfessional(
         [FromRoute] int id,
         [FromBody] CreateProfessionalReq professional
@@ -60,6 +63,7 @@ public class ProfessionalController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Firm")]
     public ActionResult DeleteProfessional([FromRoute] int id)
     {
         try

@@ -3,6 +3,7 @@ using api_project.errors;
 using Microsoft.AspNetCore.Mvc;
 using api_project.Services;
 using api_project.Dto.Login;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api_project.Controllers;
 
@@ -80,6 +81,7 @@ public class FirmController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Roles = "Firm")]
     public ActionResult<FirmRes> UpdateFirm([FromRoute] int id, [FromBody] CreateFirmReq firm)
     {
         try
@@ -93,6 +95,7 @@ public class FirmController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Firm")]
     public ActionResult DeleteFirm([FromRoute] int id)
     {
         try
