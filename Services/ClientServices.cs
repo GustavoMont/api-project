@@ -12,15 +12,26 @@ public class ClientServices
 {
     private ClientRepository _repository;
     private TokenService _tokenService;
+    private IHttpContextAccessor _httpContext;
 
     public ClientServices(
         [FromServices] ClientRepository repository,
-        [FromServices] TokenService tokenService
+        [FromServices] TokenService tokenService,
+        [FromServices] IHttpContextAccessor httpContext
     )
     {
         _repository = repository;
         _tokenService = tokenService;
+        _httpContext = httpContext;
     }
+
+    public int GetClientId()
+    {
+        var HttpContext = _httpContext.HttpContext;
+        var id = Convert.ToInt32(HttpContext.User.FindFirst("id").Value);
+        return id;
+    }
+
 
     public Client GetClientById(int id, bool tracking = true)
     {

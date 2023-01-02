@@ -42,4 +42,5 @@ public class Firm
 
     public List<Service> Services { get; set; }
     public List<Professional> Professionals { get; set; }
+    public List<Contract> Contracts { get; set; }
 }

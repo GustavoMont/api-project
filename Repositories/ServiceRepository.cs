@@ -18,6 +18,10 @@ public class ServiceRepository
     {
         _context.Services.Add(newService);
         _context.SaveChanges();
+        newService.ServiceType = _context.ServiceTypes
+            .AsNoTracking()
+            .First(st => st.Id == newService.ServiceTypeId);
+        newService.Firm = _context.Firms.AsNoTracking().First(f => f.Id == newService.FirmId);
         return newService;
     }
 

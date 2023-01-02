@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api_project.Data;
 
@@ -10,9 +11,10 @@ using api_project.Data;
 namespace api_project.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230102162931_AlterContractStatusFields")]
+    partial class AlterContractStatusFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,9 +71,6 @@ namespace api_project.Migrations
                     b.Property<DateTime>("ExpectDeadeline")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("FirmId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsPaid")
                         .HasColumnType("tinyint(1)");
 
@@ -89,8 +88,6 @@ namespace api_project.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
-
-                    b.HasIndex("FirmId");
 
                     b.HasIndex("ServiceId");
 
@@ -313,12 +310,6 @@ namespace api_project.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("api_project.Models.Firm", "Firm")
-                        .WithMany("Contracts")
-                        .HasForeignKey("FirmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("api_project.Models.Service", "Service")
                         .WithMany("Contract")
                         .HasForeignKey("ServiceId")
@@ -326,14 +317,12 @@ namespace api_project.Migrations
                         .IsRequired();
 
                     b.HasOne("api_project.Models.ContractStatus", "Status")
-                        .WithMany("Contracts")
+                        .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
-
-                    b.Navigation("Firm");
 
                     b.Navigation("Service");
 
@@ -414,15 +403,8 @@ namespace api_project.Migrations
                     b.Navigation("Contract");
                 });
 
-            modelBuilder.Entity("api_project.Models.ContractStatus", b =>
-                {
-                    b.Navigation("Contracts");
-                });
-
             modelBuilder.Entity("api_project.Models.Firm", b =>
                 {
-                    b.Navigation("Contracts");
-
                     b.Navigation("Professionals");
 
                     b.Navigation("Services");

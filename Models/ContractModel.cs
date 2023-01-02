@@ -21,7 +21,9 @@ public class Contract
     [Required]
     public int ClientId { get; set; }
     public Service Service { get; set; }
+    public int ServiceId { get; set; }
+    public Firm Firm { get; set; }
 
     [Required]
-    public int ServiceId { get; set; }
+    public int FirmId { get; set; }
 }

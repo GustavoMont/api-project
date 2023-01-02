@@ -17,4 +17,16 @@ public class Context : DbContext
     public DbSet<Contract> Contracts { get; set; }
     public DbSet<Professional> Professionals { get; set; }
     public DbSet<ContractStatus> ContractStatus { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Contract>().Property(p => p.StatusId).HasDefaultValue(1);
+        modelBuilder
+            .Entity<ContractStatus>()
+            .Property(p => p.Name)
+            .HasConversion(
+                n => n.ToString(),
+                n => (ContractStatusName)Enum.Parse(typeof(ContractStatusName), n)
+            );
+    }
 }
