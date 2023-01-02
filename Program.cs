@@ -14,11 +14,13 @@ var key = Encoding.ASCII.GetBytes(Settings.Secret);
 // Add services to the container.
 builder.Services.AddCors();
 
+builder.Services.AddScoped<ContractStatusRepository>();
 builder.Services.AddScoped<ProfessionalRepository>();
 builder.Services.AddScoped<ServiceTypeRepository>();
 builder.Services.AddScoped<ServiceRepository>();
 builder.Services.AddScoped<ClientRepository>();
 builder.Services.AddScoped<FirmRepository>();
+builder.Services.AddScoped<ContractStatusService>();
 builder.Services.AddScoped<ProfessionalServices>();
 builder.Services.AddScoped<ServiceTypeService>();
 builder.Services.AddScoped<ServiceServices>();

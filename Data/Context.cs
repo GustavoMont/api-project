@@ -16,4 +16,5 @@ public class Context : DbContext
     public DbSet<Firm> Firms { get; set; }
     public DbSet<Contract> Contracts { get; set; }
     public DbSet<Professional> Professionals { get; set; }
+    public DbSet<ContractStatus> ContractStatus { get; set; }
 }

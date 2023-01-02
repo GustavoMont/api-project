@@ -11,46 +11,37 @@ public class ServiceServices
 {
     private readonly ServiceRepository _repository;
     private readonly FirmServices _firmService;
-    private readonly ServiceTypeRepository _serviceTypeRepository;
+    private readonly ServiceTypeService _serviceTypeService;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public ServiceServices(
         [FromServices] ServiceRepository repository,
         [FromServices] FirmServices firmServices,
-        [FromServices] ServiceTypeRepository serviceTypeRepository,
+        [FromServices] ServiceTypeService serviceTypeService,
         [FromServices] IHttpContextAccessor httpContextAccessor
     )
     {
         _repository = repository;
         _firmService = firmServices;
-        _serviceTypeRepository = serviceTypeRepository;
+        _serviceTypeService = serviceTypeService;
         _httpContextAccessor = httpContextAccessor;
     }
 
     public ServiceRes CreateService(ServiceCreateReq newService)
     {
-        var firmId = _firmService.GetFirmId();
         try
         {
+            var firmId = _firmService.GetFirmId();
             var firm = _firmService.GetOneFirm(firmId);
+            var serviceType = _serviceTypeService.GetOneServiceType((int)newService.ServiceTypeId);
+            newService.FirmId = firmId;
+            var service = _repository.CreateService(newService.Adapt<Service>());
+            return service.Adapt<ServiceRes>();
         }
         catch (Exception err)
         {
             throw new BadHttpRequestException(err.Message);
         }
-        try
-        {
-            var serviceType = _serviceTypeRepository.GetOneServiceType(
-                (int)newService.ServiceTypeId
-            );
-        }
-        catch (System.Exception)
-        {
-            throw new BadHttpRequestException("Insira um tipo de serviço válido");
-        }
-        newService.FirmId = firmId;
-        var service = _repository.CreateService(newService.Adapt<Service>());
-        return service.Adapt<ServiceRes>();
     }
 
     public List<ServiceRes> GetAllServices()
