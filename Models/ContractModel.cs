@@ -10,8 +10,12 @@ public class Contract
     [Required]
     [Column(TypeName = "text")]
     public string Description { get; set; }
-    public DateTime ExpectDeadeline { get; set; }
-    public DateTime CompletedAt { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? ExpectDeadeline { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? CompletedAt { get; set; }
     public bool IsPaid { get; set; }
     public DateTime PaidAt { get; set; }
     public int StatusId { get; set; }

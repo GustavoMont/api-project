@@ -25,4 +25,14 @@ public class ContractStatusRepository
     {
         return _context.ContractStatus.AsNoTracking().ToList();
     }
+
+    public ContractStatus GetByName(ContractStatusName name)
+    {
+        return _context.ContractStatus.AsNoTracking().FirstOrDefault(c => c.Name == name);
+    }
+
+    public ContractStatus GetOne(int id)
+    {
+        return _context.ContractStatus.AsNoTracking().FirstOrDefault(c => c.Id == id);
+    }
 }

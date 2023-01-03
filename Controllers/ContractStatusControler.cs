@@ -1,6 +1,7 @@
 using api_project.Dto.ContractStatus;
 using api_project.errors;
 using api_project.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api_project.Controllers;
@@ -17,6 +18,7 @@ public class ContractStatusController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public ActionResult<ContractStatusRes> Create([FromBody] CreateContractStatus newContractStatus)
     {
         try

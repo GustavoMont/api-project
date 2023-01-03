@@ -39,4 +39,26 @@ public class ContractStatusService
         }
         return allContractStatus.Adapt<List<ContractStatusRes>>();
     }
+
+    public ContractStatusRes GetByName(string contractStatusName)
+    {
+        ContractStatusName statusNameEnum = (ContractStatusName)
+            Enum.Parse(typeof(ContractStatusName), contractStatusName);
+        var contractStatus = _repository.GetByName(statusNameEnum);
+        if (contractStatus is null)
+        {
+            throw new NotFoundException("Status de Contrato não encontrados");
+        }
+        return contractStatus.Adapt<ContractStatusRes>();
+    }
+
+    public ContractStatus GetById(int id)
+    {
+        var contract = _repository.GetOne(id);
+        if (contract is null)
+        {
+            throw new NotFoundException("Status não encontrado");
+        }
+        return contract;
+    }
 }

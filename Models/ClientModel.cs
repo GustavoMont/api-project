@@ -43,5 +43,5 @@ public class Client
     }
 
     public List<ClientContact> Contacts { get; set; }
-    public List<Contract> Contract { get; set; }
+    public List<Contract> Contracts { get; set; }
 }
